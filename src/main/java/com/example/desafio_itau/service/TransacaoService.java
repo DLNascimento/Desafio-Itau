@@ -1,8 +1,10 @@
 package com.example.desafio_itau.service;
 
 import com.example.desafio_itau.dto.TransacaoDto;
+import com.example.desafio_itau.exception.UnprocessableEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +14,14 @@ public class TransacaoService {
     private final List<TransacaoDto> listaTransacao = new ArrayList<>();
 
 
-    public void adicionarTransacao(TransacaoDto transacaoDto){
-        listaTransacao.add(transacaoDto);
+    public void adicionarTransacao(TransacaoDto transacaoDto) {
+        if (transacaoDto.dataHora().isAfter(OffsetDateTime.now())) {
+            throw new UnprocessableEntity("Data e hora > Data e hora atual");
+        } else if (transacaoDto.valor() < 0) {
+            throw new UnprocessableEntity("Valor não pode ser negativo");
+        } else {
+            listaTransacao.add(transacaoDto);
+        }
     }
 
 
