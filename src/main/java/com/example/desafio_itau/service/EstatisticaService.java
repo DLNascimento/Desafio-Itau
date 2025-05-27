@@ -18,10 +18,13 @@ public class EstatisticaService {
 
     public EstatisticasDto respostaEstatisticas() {
         List<TransacaoDto> transacoes = transacaoService.estatisticasTransacao();
+        if (transacoes.isEmpty()){
+            return new EstatisticasDto(0L, 0.0, 0.0, 0.0, 0.0);
+        }
         DoubleSummaryStatistics estatisticaTransacoes = transacoes.stream().mapToDouble(TransacaoDto::valor).summaryStatistics();
         return new EstatisticasDto(estatisticaTransacoes.getCount(),
-                estatisticaTransacoes.getAverage(),
                 estatisticaTransacoes.getSum(),
+                estatisticaTransacoes.getAverage(),
                 estatisticaTransacoes.getMin(),
                 estatisticaTransacoes.getMax());
     }
