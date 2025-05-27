@@ -24,5 +24,8 @@ public class TransacaoService {
         }
     }
 
+    public void deletandoTransacoes(){
+        listaTransacao.clear();
+    }
 
 }
