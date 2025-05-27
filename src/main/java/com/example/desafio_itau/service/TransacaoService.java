@@ -1,11 +1,13 @@
 package com.example.desafio_itau.service;
 
+import com.example.desafio_itau.dto.EstatisticasDto;
 import com.example.desafio_itau.dto.TransacaoDto;
 import com.example.desafio_itau.exception.UnprocessableEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 
 @Service
@@ -24,7 +26,14 @@ public class TransacaoService {
         }
     }
 
-    public void deletandoTransacoes(){
+    public List<TransacaoDto> estatisticasTransacao() {
+        OffsetDateTime listarEstatiscas = OffsetDateTime.now().minusSeconds(60);
+        return listaTransacao.
+                stream().
+                filter(transacao -> transacao.dataHora().isAfter(listarEstatiscas)).toList();
+    }
+
+    public void deletandoTransacoes() {
         listaTransacao.clear();
     }
 
